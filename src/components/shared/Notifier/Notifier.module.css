@@ -1,0 +1,16 @@
+.wrapper {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  width: 200px;
+  min-height: 50px;
+  background-color: #ff0000;
+  padding: 20px;
+  z-index: 1500;
+}
+
+.text {
+  color: #ffffff;
+  font-size: 20px;
+  text-transform: capitalize;
+}

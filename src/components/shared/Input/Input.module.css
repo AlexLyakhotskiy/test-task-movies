@@ -1,0 +1,81 @@
+.wrapper {
+  position: relative;
+  padding: 15px 0 0;
+  width: 100%;
+}
+
+.input {
+  font-family: inherit;
+  position: relative;
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid #ced2d1;
+  outline: none;
+  color: #181c27;
+  padding: 20px 25px;
+  background: transparent;
+  transition: border-color linear 250ms;
+}
+
+.input::placeholder {
+  color: transparent;
+}
+
+.input:not(:placeholder-shown) ~ .label {
+  top: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: #ffffff;
+}
+
+.input:focus {
+  border-color: #1818ff;
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px #ffffff inset;
+}
+
+.inputError {
+  border-color: #ff0000;
+}
+
+.label {
+  position: absolute;
+  top: 34px;
+  left: 25px;
+  display: block;
+  font-size: 14px;
+  transition: all linear 250ms;
+  color: #bbbbbb;
+}
+
+.labelError {
+  color: #ff0000;
+}
+
+.input:focus ~ .label {
+  position: absolute;
+  top: 6px;
+  display: block;
+  padding-left: 6px;
+  padding-right: 6px;
+  color: #1818ff;
+  background-color: #ffffff;
+  transition: all linear 250ms;
+}
+
+.input:focus ~ .labelError {
+  color: #ff0000;
+}
+
+.error {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #ff0000;
+}

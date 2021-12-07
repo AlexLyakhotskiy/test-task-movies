@@ -1,0 +1,44 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
+}
+
+.modal {
+  position: relative;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 24px);
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+.btn {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+  border: none;
+  color: #141414;
+  background-color: transparent;
+  transition: all linear 250ms;
+}
+
+.btn:hover,
+.btn:focus {
+  color: #eeeeee;
+  background-color: #1818ff;
+}

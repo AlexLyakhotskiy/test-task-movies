@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.form {
+  padding: 60px;
+  width: 540px;
+  margin: auto;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+    1px 4px 6px rgba(0, 0, 0, 0.16);
+}
+
+.formTitle {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.input {
+  margin-bottom: 20px;
+}
+
+.btnWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  width: 200px;
+  min-height: 60px;
+  text-transform: capitalize;
+}

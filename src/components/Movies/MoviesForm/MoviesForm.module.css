@@ -1,0 +1,19 @@
+.wrapper {
+  width: 540px;
+  padding: 60px;
+  background-color: #ffffff;
+}
+
+.input {
+  margin-bottom: 20px;
+}
+
+.btnWrapper {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 10px;
+}

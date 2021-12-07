@@ -1,0 +1,20 @@
+.form {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.wrapper {
+  position: relative;
+  width: 300px;
+}
+
+.btn {
+  position: absolute;
+  top: 15px;
+  right: -56px;
+  width: 58px;
+  height: 58px;
+  border-radius: 0;
+  padding: 10px;
+}
