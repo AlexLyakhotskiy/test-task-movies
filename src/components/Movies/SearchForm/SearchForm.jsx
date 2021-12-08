@@ -19,7 +19,9 @@ export default function SearchForm() {
     setQuery(stringInLowerCase);
   };
 
-  const addQuery = () => {
+  const addQuery = e => {
+    e.preventDefault();
+
     dispatch(setSearchQuery(searchQuery.trim()));
   };
 
@@ -30,7 +32,7 @@ export default function SearchForm() {
 
   return (
     <>
-      <form className={styles.form}>
+      <form onSubmit={addQuery} className={styles.form}>
         <div className={styles.wrapper}>
           <Input
             label="Find movies by title or actor name"
@@ -38,14 +40,8 @@ export default function SearchForm() {
             value={searchQuery}
             onChange={handleChangeInput}
           />
+          <MainButton type="submit" icon="search" className={styles.serchBtn} />
           <MainButton
-            type="button"
-            icon="search"
-            className={styles.serchBtn}
-            onClick={addQuery}
-          />
-          <MainButton
-            type="button"
             icon="cross"
             onClick={clearQuery}
             className={styles.clearBtn}
