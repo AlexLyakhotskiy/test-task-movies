@@ -7,7 +7,7 @@
 4. Run fronend container:
    **`docker run --name movies -p 3000:3000 -e API_URL=http://localhost:8000/api/v1 alexlyakhotskiy/movies`**
 
-# Technologic
+# Technologies
 
 1. React.js
 2. Redux/toolkit
@@ -20,7 +20,7 @@
 3. Works with backend implemented through createAsyncThunk
 4. Error validation is done through the backend
 5. SPA's got two "pages" auth and movies
-6. On auth page user can create acc or signin existed acc
+6. On auth page user can create account or signin into existed account
 7. Movies page provides: <br> `1.` Add one movie <br> `2.` Import movies from
    .txt file <br> `3.` Remove one movie by id <br> `4.` Review a movie details
    <br> `5.` Show the list of movies sorted by title in alphabetical order <br>
