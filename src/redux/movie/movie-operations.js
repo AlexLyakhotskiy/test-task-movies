@@ -5,12 +5,20 @@ import {
   apiAddMoviesList,
   apiDeleteMovie,
 } from '../../utils/apiServices';
+import { setError } from './movie-actions';
+import { getSearchQuery } from './movie-selectors';
 
 export const getMovies = createAsyncThunk(
   'movies/getList',
-  async (searchQuery, { rejectWithValue }) => {
+  async (searchQuery, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await apiGetMovies(searchQuery);
+
+      const isBadSearchRequest = !data.length && searchQuery;
+      if (isBadSearchRequest) {
+        dispatch(setError('Nothing match'));
+      }
+
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -20,9 +28,11 @@ export const getMovies = createAsyncThunk(
 
 export const addMovie = createAsyncThunk(
   'movies/add',
-  async (movie, { rejectWithValue }) => {
+  async (movie, { getState, rejectWithValue }) => {
     try {
-      const { data } = await apiAddMovie(movie);
+      const searchQuery = getSearchQuery(getState());
+      await apiAddMovie(movie);
+      const { data } = await apiGetMovies(searchQuery);
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -32,9 +42,11 @@ export const addMovie = createAsyncThunk(
 
 export const importMovies = createAsyncThunk(
   'movies/import',
-  async (movies, { rejectWithValue }) => {
+  async (movies, { getState, rejectWithValue }) => {
     try {
-      const { data } = await apiAddMoviesList(movies);
+      const searchQuery = getSearchQuery(getState());
+      await apiAddMoviesList(movies);
+      const { data } = await apiGetMovies(searchQuery);
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -44,10 +56,12 @@ export const importMovies = createAsyncThunk(
 
 export const removeMovie = createAsyncThunk(
   'movies/delete',
-  async (movieId, { rejectWithValue }) => {
+  async (movieId, { getState, rejectWithValue }) => {
     try {
+      const searchQuery = getSearchQuery(getState());
       await apiDeleteMovie(movieId);
-      return movieId;
+      const { data } = await apiGetMovies(searchQuery);
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }

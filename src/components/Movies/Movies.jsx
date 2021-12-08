@@ -1,14 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getMoviesSelector } from '../../redux/movie/movie-selectors';
+import {
+  getMoviesSelector,
+  getSearchQuery,
+  getSuccessAdd,
+} from '../../redux/movie/movie-selectors';
 import {
   getMovies,
   addMovie,
   removeMovie,
   importMovies,
 } from '../../redux/movie/movie-operations';
-import { moviesAction } from '../../redux/movie/movie-slice';
+import { requestSuccess, resetAllError } from '../../redux/movie/movie-slice';
 
 import MoviesForm from './MoviesForm/MoviesForm';
 import Modal from '../shared/Modal/Modal';
@@ -27,10 +31,11 @@ const initValue = {
 };
 
 export default function Movies() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [modalControlls, setModalControlls] = useState(initValue);
   const [file, setFile] = useState(null);
 
+  const isSuccessAdd = useSelector(getSuccessAdd);
+  const searchQuery = useSelector(getSearchQuery);
   const items = useSelector(getMoviesSelector);
   const dispatch = useDispatch();
 
@@ -46,6 +51,13 @@ export default function Movies() {
     dispatch(getMovies(searchQuery));
   }, [dispatch, searchQuery]);
 
+  useEffect(() => {
+    if (!isSuccessAdd) return;
+
+    setModalControlls(prev => ({ ...prev, form: false }));
+    dispatch(requestSuccess());
+  }, [dispatch, isSuccessAdd]);
+
   const handleSubmit = movieData => {
     dispatch(addMovie(movieData));
   };
@@ -59,7 +71,7 @@ export default function Movies() {
       setModalControlls(prev => ({ ...prev, [key]: !prev[key] }));
 
       if (key === 'form' && modalControlls.form) {
-        dispatch(moviesAction.resetAllError());
+        dispatch(resetAllError());
       }
     },
     [dispatch, modalControlls.form],
@@ -71,7 +83,7 @@ export default function Movies() {
 
   return (
     <div>
-      <SearchForm onSubmit={setSearchQuery} />
+      <SearchForm />
       <div className={styles.wrapper}>
         <MainButton
           label="add movie"

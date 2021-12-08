@@ -6,12 +6,15 @@ import {
   importMovies,
   removeMovie,
 } from './movie-operations';
+import { setError } from './movie-actions';
 
 const initErrors = { format: '', title: '', year: '' };
 
 const initialState = {
   items: null,
+  searchQuery: '',
   error: null,
+  successAdd: false,
   loading: false,
   inputErrors: initErrors,
 };
@@ -26,8 +29,18 @@ const moviesSlice = createSlice({
     resetError(state, { payload }) {
       state.inputErrors = { ...state.inputErrors, [payload]: '' };
     },
+    setSearchQuery(state, { payload }) {
+      state.searchQuery = payload;
+    },
+    requestSuccess(state) {
+      state.successAdd = false;
+    },
   },
   extraReducers: {
+    [setError](state, { payload }) {
+      state.error = payload;
+    },
+
     [getMovies.pending](state) {
       state.loading = true;
       state.error = null;
@@ -46,8 +59,9 @@ const moviesSlice = createSlice({
       state.error = null;
     },
     [addMovie.fulfilled](state, { payload }) {
-      state.items.push(payload);
+      state.items = payload;
       state.loading = false;
+      state.successAdd = true;
     },
     [addMovie.rejected](state, { payload }) {
       state.loading = false;
@@ -73,7 +87,7 @@ const moviesSlice = createSlice({
       state.error = null;
     },
     [removeMovie.fulfilled](state, { payload }) {
-      state.items = state.items.filter(({ id }) => id !== payload);
+      state.items = payload;
       state.loading = false;
     },
     [removeMovie.rejected](state, { payload }) {
@@ -83,5 +97,9 @@ const moviesSlice = createSlice({
   },
 });
 
-export const moviesAction = moviesSlice.actions;
-export const moviesReducer = moviesSlice.reducer;
+const { actions, reducer } = moviesSlice;
+
+export const { resetAllError, resetError, setSearchQuery, requestSuccess } =
+  actions;
+
+export default reducer;

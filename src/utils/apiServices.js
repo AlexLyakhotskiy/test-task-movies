@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-const apiToken = {
+export const apiToken = {
   set(token) {
     axios.defaults.headers.common.Authorization = token;
   },
@@ -19,7 +19,7 @@ export async function apiRegisterUser(userData) {
   if (!data.status) return Promise.reject(data.error.fields);
 
   apiToken.set(data.token);
-  return;
+  return data.token;
 }
 
 export async function apiLoginUser(userData) {
@@ -28,7 +28,7 @@ export async function apiLoginUser(userData) {
   if (!data.status) return Promise.reject(data.error.fields);
 
   apiToken.set(data.token);
-  return;
+  return data.token;
 }
 
 // ============================================================
@@ -58,7 +58,7 @@ export async function apiAddMovie(movieData) {
 
   if (!data.status) return Promise.reject(data.error);
 
-  return data;
+  return;
 }
 
 export async function apiAddMoviesList(moviesData) {
@@ -66,7 +66,7 @@ export async function apiAddMoviesList(moviesData) {
 
   if (!data.status) return Promise.reject(data.error.code);
 
-  return data;
+  return;
 }
 
 export async function apiDeleteMovie(movieId) {

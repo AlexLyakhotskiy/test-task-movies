@@ -10,7 +10,7 @@ const initError = {
 };
 
 const initialState = {
-  isLoggedIn: false,
+  token: null,
   error: initError,
   loading: false,
 };
@@ -30,8 +30,8 @@ const authSlice = createSlice({
     [signUp.pending](state) {
       state.loading = true;
     },
-    [signUp.fulfilled](state) {
-      state.isLoggedIn = true;
+    [signUp.fulfilled](state, { payload }) {
+      state.token = payload;
       state.loading = false;
     },
     [signUp.rejected](state, { payload }) {
@@ -42,8 +42,8 @@ const authSlice = createSlice({
     [signIn.pending](state) {
       state.loading = true;
     },
-    [signIn.fulfilled](state) {
-      state.isLoggedIn = true;
+    [signIn.fulfilled](state, { payload }) {
+      state.token = payload;
       state.loading = false;
     },
     [signIn.rejected](state, { payload }) {
@@ -53,5 +53,7 @@ const authSlice = createSlice({
   },
 });
 
-export const authAction = authSlice.actions;
-export const authReducer = authSlice.reducer;
+const { actions, reducer } = authSlice;
+
+export const { resetAllError, resetError } = actions;
+export default reducer;

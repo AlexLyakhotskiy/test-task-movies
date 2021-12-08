@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getmoviesInputErrors } from '../../../redux/movie/movie-selectors';
-import { moviesAction } from '../../../redux/movie/movie-slice';
+import { resetError } from '../../../redux/movie/movie-slice';
+import {
+  checkForSpacesAtBeginAndEnd,
+  checkForSpecialCharacters,
+} from '../../../utils/functions';
 
 import Input from '../../shared/Input/Input';
 import List from '../../shared/List/List';
@@ -21,8 +25,16 @@ const initValue = {
   actors: [],
 };
 
+const initError = {
+  title: '',
+  year: '',
+  format: '',
+  actor: '',
+};
+
 export default function MoviesForm({ onSubmit }) {
   const [movieData, setMovieData] = useState(initValue);
+  const [errors, setErrors] = useState(initError);
 
   const dispatch = useDispatch();
   const inputErrors = useSelector(getmoviesInputErrors);
@@ -30,22 +42,32 @@ export default function MoviesForm({ onSubmit }) {
   const handleSubmit = e => {
     e.preventDefault();
 
+    const hasError = Object.values(errors).some(e => e);
+    if (hasError) return;
+
     onSubmit(movieData);
   };
 
   const handleChangeInput = e => {
     const { name, value } = e.target;
 
+    setErrors(prev => ({ ...prev, [name]: '' }));
+
+    checkForSpecialCharacters(name, value, setErrors);
+    checkForSpacesAtBeginAndEnd(name, value, setErrors);
+
     setMovieData(prev => ({ ...prev, [name]: value }));
 
     const isErrorExist = inputErrors[name];
     if (isErrorExist) {
-      dispatch(moviesAction.resetError(name));
+      dispatch(resetError(name));
     }
   };
 
   const handleAddActor = () => {
     if (!movieData.actor.trim()) return;
+
+    if (errors.actor) return;
 
     setMovieData(prev => ({
       ...prev,
@@ -67,7 +89,7 @@ export default function MoviesForm({ onSubmit }) {
         <Input
           name="title"
           label="title"
-          error={inputErrors.title}
+          error={errors.title || inputErrors.title}
           value={movieData.title}
           onChange={handleChangeInput}
           className={styles.input}
@@ -75,7 +97,7 @@ export default function MoviesForm({ onSubmit }) {
         <Input
           name="year"
           label="year"
-          error={inputErrors.year}
+          error={errors.year || inputErrors.year}
           value={movieData.year}
           onChange={handleChangeInput}
           className={styles.input}
@@ -83,7 +105,7 @@ export default function MoviesForm({ onSubmit }) {
         <Select
           name="format"
           label="format"
-          error={inputErrors.format}
+          error={errors.format || inputErrors.format}
           value={movieData.format}
           onChange={handleChangeInput}
           className={styles.input}
@@ -92,6 +114,7 @@ export default function MoviesForm({ onSubmit }) {
         <Input
           name="actor"
           label="actor"
+          error={errors.actor}
           value={movieData.actor}
           onChange={handleChangeInput}
           className={styles.input}

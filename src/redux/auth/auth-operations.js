@@ -7,8 +7,8 @@ export const signUp = createAsyncThunk(
   'auth/signUp',
   async (user, { rejectWithValue }) => {
     try {
-      await apiRegisterUser(user);
-      return;
+      const data = await apiRegisterUser(user);
+      return data;
     } catch (error) {
       const newErrorWithoutDataInKeys = errorSerializer(error);
       return rejectWithValue(newErrorWithoutDataInKeys);
@@ -20,8 +20,8 @@ export const signIn = createAsyncThunk(
   'auth/signIn',
   async (user, { rejectWithValue }) => {
     try {
-      await apiLoginUser(user);
-      return;
+      const data = await apiLoginUser(user);
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }

@@ -5,16 +5,23 @@
 }
 
 .wrapper {
-  position: relative;
-  width: 300px;
+  display: flex;
+  width: 400px;
 }
 
 .btn {
-  position: absolute;
-  top: 15px;
-  right: -56px;
   width: 58px;
   height: 58px;
   border-radius: 0;
   padding: 10px;
+  margin-top: 15px;
+}
+
+.serchBtn {
+  composes: btn;
+}
+
+.clearBtn {
+  composes: btn;
+  background-color: red;
 }
